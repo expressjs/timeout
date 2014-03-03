@@ -1,4 +1,4 @@
-# Method Override
+# Timeout
 
 Previously `connect.timeout()`.
 
