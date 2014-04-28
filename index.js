@@ -33,6 +33,7 @@ module.exports = function timeout(ms) {
     var id = setTimeout(function(){
       req.emit('timeout', ms);
     }, ms);
+	id.unref();
 
     req.on('timeout', function(){
       if (res.headersSent) return debug('response started, cannot timeout');
