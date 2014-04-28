@@ -6,7 +6,7 @@ Usage:
 
 ```js
 var app = require('connect');
-app.use(require('timeout')(300))
+app.use(require('connect-timeout')(300))
 ```
 
 ## API
