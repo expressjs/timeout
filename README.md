@@ -2,15 +2,13 @@
 
 Times out the request in `ms`, defaulting to `5000`.
 
+## Install
+
+    npm install connect-timeout
+
 ## API
 
-```js
-var express = require('express')
-var timeout = require('connect-timeout')
-
-var app = express()
-app.use(timeout(300))
-```
+**NOTE** This module is not recommend as a "top-level" middleware (i.e. do not recommend for use as `app.use(timeout(5000))`).
 
 ### timeout(ms)
 
@@ -25,6 +23,89 @@ Clears the timeout on the request.
 #### req.timedout, res.timedout
 
 `true` if timeout fired; `false` otherwise.
+
+## Examples
+
+### as top-level middleware
+
+```javascript
+var express = require('express');
+var timeout = require('connect-timeout');
+
+// example of using this top-level; note the use of haltOnTimedout
+// after every middleware; it will stop the request flow on a timeout
+var app = express();
+app.use(timeout(5000));
+app.use(bodyParser());
+app.use(haltOnTimedout);
+app.use(cookieParser());
+app.use(haltOnTimedout);
+
+// Add your routes here, etc.
+
+function haltOnTimedout(req, res, next){
+  if (!res.timedout) next();
+}
+
+app.listen(3000);
+```
+
+### express 3.x
+
+```javascript
+var express = require('express');
+var bodyParser = require('body-parser');
+var timeout = require('connect-timeout');
+
+var app = express();
+app.post('/save', timeout(5000), bodyParser.json(), haltOnTimedout, function(req, res, next){
+  savePost(req.body, function(err, id){
+    if (err) return next(err);
+    if (res.timedout) return;
+    res.send('saved as id ' + id);
+  });
+});
+
+function haltOnTimedout(req, res, next){
+  if (!res.timedout) next();
+}
+
+function savePost(post, cb){
+  setTimeout(function(){
+    cb(null, ((Math.random()* 40000) >>> 0));
+  }, (Math.random()* 7000) >>> 0));
+}
+
+app.listen(3000);
+```
+
+### connect 2.x
+
+```javascript
+var connect = require('connect');
+var timeout = require('connect-timeout');
+
+var app = require('connect');
+app.use('/save', timeout(5000), connect.json(), haltOnTimedout, function(req, res, next){
+  savePost(req.body, function(err, id){
+    if (err) return next(err);
+    if (res.timedout) return;
+    res.send('saved as id ' + id);
+  });
+});
+
+function haltOnTimedout(req, res, next){
+  if (!res.timedout) next();
+}
+
+function savePost(post, cb){
+  setTimeout(function(){
+    cb(null, ((Math.random()* 40000) >>> 0));
+  }, (Math.random()* 7000) >>> 0));
+}
+
+app.listen(3000);
+```
 
 ## License
 
