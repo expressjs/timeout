@@ -2,6 +2,8 @@
 
 Previously `connect.timeout()`.
 
+[![Build Status](https://travis-ci.org/expressjs/timeout.svg?branch=master)](https://travis-ci.org/expressjs/timeout)
+
 Usage:
 
 ```js
