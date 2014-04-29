@@ -22,6 +22,10 @@ The timeout error is passed to `next()` so that you may customize the response b
 
 Clears the timeout on the request.
 
+#### req.timedout, res.timedout
+
+`true` if timeout fired; `false` otherwise.
+
 ## License
 
 The MIT License (MIT)

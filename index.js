@@ -26,6 +26,7 @@ module.exports = function timeout(ms) {
   return function(req, res, next) {
     var destroy = req.socket.destroy;
     var id = setTimeout(function(){
+      req.timedout = res.timedout = true;
       req.emit('timeout', ms);
     }, ms);
 
@@ -45,6 +46,8 @@ module.exports = function timeout(ms) {
       clearTimeout(id);
       destroy.call(this);
     };
+
+    req.timedout = res.timedout = false;
 
     var writeHead = res.writeHead;
     res.writeHead = function(){
