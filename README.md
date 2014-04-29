@@ -10,17 +10,19 @@ Times out the request in `ms`, defaulting to `5000`.
 
 **NOTE** This module is not recommend as a "top-level" middleware (i.e. do not recommend for use as `app.use(timeout(5000))`).
 
-### timeout(ms)
+### timeout(ms, options)
 
-Returns middleware that times out in `ms` milliseconds.
+Returns middleware that times out in `ms` milliseconds. On timeout, `req` will emit `"timeout"`.
 
-The timeout error is passed to `next()` so that you may customize the response behavior. This error has a `.timeout` property as well as `.status == 503`.
+#### options
 
-#### req.clearTimeout()
+* `respond` - If `true`, the timeout error is passed to `next()` so that you may customize the response behavior. This error has a `.timeout` property as well as `.status == 503`. This defaults to `true`.
+
+### req.clearTimeout()
 
 Clears the timeout on the request.
 
-#### req.timedout, res.timedout
+### req.timedout, res.timedout
 
 `true` if timeout fired; `false` otherwise.
 

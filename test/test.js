@@ -76,6 +76,22 @@ describe('timeout()', function(){
     })
   })
 
+  describe('options', function(){
+    it('can disable auto response', function(done){
+      var app = connect()
+        .use(timeout(300, {respond: false}))
+        .use(function(req, res){
+          setTimeout(function(){
+            res.end('Timedout ' + res.timedout);
+          }, 400);
+        });
+
+      request(app.listen())
+      .get('/')
+      .expect('Timedout true', done);
+    })
+  })
+
   describe('req.clearTimeout()', function(){
     it('should revert this behavior', function(done){
       var app = connect()

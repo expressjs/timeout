@@ -16,12 +16,16 @@ var debug = require('debug')('connect:timeout');
  * See README.md for documentation.
  *
  * @param {Number} ms
+ * @param {Object} options
  * @return {Function} middleware
  * @api public
  */
 
-module.exports = function timeout(ms) {
+module.exports = function timeout(ms, options) {
   ms = ms || 5000;
+  options = options || {};
+
+  var respond = !('respond' in options) || options.respond === true;
 
   return function(req, res, next) {
     var destroy = req.socket.destroy;
@@ -30,13 +34,9 @@ module.exports = function timeout(ms) {
       req.emit('timeout', ms);
     }, ms);
 
-    req.on('timeout', function(){
-      if (this._header) return debug('response started, cannot timeout');
-      var err = new Error('Response timeout');
-      err.timeout = ms;
-      err.status = 503;
-      next(err);
-    });
+    if (respond) {
+      req.on('timeout', onTimeout(ms, next));
+    }
 
     req.clearTimeout = function(){
       clearTimeout(id);
@@ -58,3 +58,19 @@ module.exports = function timeout(ms) {
     next();
   };
 };
+
+function generateTimeoutError(){
+  var err = new Error('Response timeout');
+  err.code = 'ETIMEDOUT';
+  err.status = 503;
+  return err;
+}
+
+function onTimeout(ms, cb){
+  return function(){
+    if (this._header) return debug('response started, cannot timeout');
+    var err = generateTimeoutError();
+    err.timeout = ms;
+    cb(err);
+  };
+}
