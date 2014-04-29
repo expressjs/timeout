@@ -30,6 +30,6 @@
     "node": ">= 0.10"
   },
   "scripts": {
-    "test": "make test"
+    "test": "mocha --reporter spec --require should"
   }
 }
