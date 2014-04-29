@@ -36,7 +36,7 @@ module.exports = function timeout(ms) {
     }, ms);
 
     req.on('timeout', function(){
-      if (res.headersSent) return debug('response started, cannot timeout');
+      if (this._header) return debug('response started, cannot timeout');
       var err = new Error('Response timeout');
       err.timeout = ms;
       err.status = 503;
