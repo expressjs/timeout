@@ -22,7 +22,7 @@ describe('timeout()', function(){
 
   describe('when above the timeout', function(){
     describe('with no response made', function(){
-      it('should respond with 408 Request timeout', function(done){
+      it('should respond with 503 Request timeout', function(done){
         var app = connect()
           .use(timeout(300))
           .use(function(req, res){
