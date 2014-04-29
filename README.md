@@ -1,21 +1,26 @@
-# Timeout
+# connect-timeout [![Build Status](https://travis-ci.org/expressjs/timeout.svg)](https://travis-ci.org/expressjs/timeout) [![NPM version](https://badge.fury.io/js/connect-timeout.svg)](http://badge.fury.io/js/connect-timeout)
 
-Previously `connect.timeout()`.
-
-[![Build Status](https://travis-ci.org/expressjs/timeout.svg?branch=master)](https://travis-ci.org/expressjs/timeout)
-
-Usage:
-
-```js
-var app = require('connect');
-app.use(require('connect-timeout')(300))
-```
+Times out the request in `ms`, defaulting to `5000`.
 
 ## API
 
-### fn = timeout(ms)
+```js
+var express = require('express')
+var timeout = require('connect-timeout')
+
+var app = express()
+app.use(timeout(300))
+```
+
+### timeout(ms)
 
 Returns middleware that times out in `ms` milliseconds.
+
+The timeout error is passed to `next()` so that you may customize the response behavior. This error has a `.timeout` property as well as `.status == 503`.
+
+#### req.clearTimeout()
+
+Clears the timeout on the request.
 
 ## License
 

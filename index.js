@@ -1,5 +1,5 @@
 /*!
- * Connect - timeout
+ * Expressjs | Connect - timeout
  * Ported from https://github.com/LearnBoost/connect-timeout
  * MIT Licensed
  */
@@ -13,16 +13,10 @@ var debug = require('debug')('connect:timeout');
 /**
  * Timeout:
  *
- * Times out the request in `ms`, defaulting to `5000`. The
- * method `req.clearTimeout()` is added to revert this behaviour
- * programmatically within your application's middleware, routes, etc.
- *
- * The timeout error is passed to `next()` so that you may customize
- * the response behaviour. This error has the `.timeout` property as
- * well as `.status == 503`.
+ * See README.md for documentation.
  *
  * @param {Number} ms
- * @return {Function}
+ * @return {Function} middleware
  * @api public
  */
 
