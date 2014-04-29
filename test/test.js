@@ -89,4 +89,78 @@ describe('timeout()', function(){
       .expect('Hello', done);
     })
   })
+
+  describe('destroy()', function(){
+    it('req should clear timer', function(done){
+      var app = connect()
+        .use(timeout(100))
+        .use(function(req, res){
+          req.destroy();
+          req.on('timeout', function(){
+            timedout = true;
+          });
+          setTimeout(function(){
+            error.code.should.equal('ECONNRESET');
+            timedout.should.be.false;
+            done();
+          }, 200);
+        });
+      var error;
+      var timedout = false;
+
+      request(app.listen())
+      .get('/')
+      .end(function(err){
+        error = err
+      });
+    })
+
+    it('res should clear timer', function(done){
+      var app = connect()
+        .use(timeout(100))
+        .use(function(req, res){
+          res.destroy();
+          req.on('timeout', function(){
+            timedout = true;
+          });
+          setTimeout(function(){
+            error.code.should.equal('ECONNRESET');
+            timedout.should.be.false;
+            done();
+          }, 200);
+        });
+      var error;
+      var timedout = false;
+
+      request(app.listen())
+      .get('/')
+      .end(function(err){
+        error = err
+      });
+    })
+
+    it('socket should clear timer', function(done){
+      var app = connect()
+        .use(timeout(100))
+        .use(function(req, res){
+          req.socket.destroy();
+          req.on('timeout', function(){
+            timedout = true;
+          });
+          setTimeout(function(){
+            error.code.should.equal('ECONNRESET');
+            timedout.should.be.false;
+            done();
+          }, 200);
+        });
+      var error;
+      var timedout = false;
+
+      request(app.listen())
+      .get('/')
+      .end(function(err){
+        error = err
+      });
+    })
+  })
 })
