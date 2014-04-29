@@ -22,7 +22,7 @@ Returns middleware that times out in `ms` milliseconds. On timeout, `req` will e
 
 Clears the timeout on the request.
 
-### req.timedout, res.timedout
+### req.timedout
 
 `true` if timeout fired; `false` otherwise.
 
@@ -46,7 +46,7 @@ app.use(haltOnTimedout);
 // Add your routes here, etc.
 
 function haltOnTimedout(req, res, next){
-  if (!res.timedout) next();
+  if (!req.timedout) next();
 }
 
 app.listen(3000);
@@ -63,13 +63,13 @@ var app = express();
 app.post('/save', timeout(5000), bodyParser.json(), haltOnTimedout, function(req, res, next){
   savePost(req.body, function(err, id){
     if (err) return next(err);
-    if (res.timedout) return;
+    if (req.timedout) return;
     res.send('saved as id ' + id);
   });
 });
 
 function haltOnTimedout(req, res, next){
-  if (!res.timedout) next();
+  if (!req.timedout) next();
 }
 
 function savePost(post, cb){
@@ -91,13 +91,13 @@ var app = require('connect');
 app.use('/save', timeout(5000), connect.json(), haltOnTimedout, function(req, res, next){
   savePost(req.body, function(err, id){
     if (err) return next(err);
-    if (res.timedout) return;
+    if (req.timedout) return;
     res.send('saved as id ' + id);
   });
 });
 
 function haltOnTimedout(req, res, next){
-  if (!res.timedout) next();
+  if (!req.timedout) next();
 }
 
 function savePost(post, cb){

@@ -27,7 +27,7 @@ describe('timeout()', function(){
           .use(timeout(300))
           .use(function(req, res){
             setTimeout(function(){
-              res.timedout.should.be.true;
+              req.timedout.should.be.true;
               res.end('Hello');
             }, 400);
           });
@@ -42,7 +42,7 @@ describe('timeout()', function(){
           .use(timeout(300))
           .use(function(req, res){
             setTimeout(function(){
-              res.timedout.should.be.true;
+              req.timedout.should.be.true;
               res.end('Hello');
             }, 400);
           })
@@ -64,7 +64,7 @@ describe('timeout()', function(){
           .use(function(req, res){
             res.write('Hello');
             setTimeout(function(){
-              res.timedout.should.be.false;
+              req.timedout.should.be.false;
               res.end(' World');
             }, 400);
           });
@@ -82,7 +82,7 @@ describe('timeout()', function(){
         .use(timeout(300, {respond: false}))
         .use(function(req, res){
           setTimeout(function(){
-            res.end('Timedout ' + res.timedout);
+            res.end('Timedout ' + req.timedout);
           }, 400);
         });
 
@@ -99,7 +99,7 @@ describe('timeout()', function(){
         .use(function(req, res){
           req.clearTimeout();
           setTimeout(function(){
-            res.timedout.should.be.false;
+            req.timedout.should.be.false;
             res.end('Hello');
           }, 400);
         });
@@ -118,7 +118,7 @@ describe('timeout()', function(){
           req.destroy();
           setTimeout(function(){
             error.code.should.equal('ECONNRESET');
-            res.timedout.should.be.false;
+            req.timedout.should.be.false;
             done();
           }, 200);
         });
@@ -138,7 +138,7 @@ describe('timeout()', function(){
           res.destroy();
           setTimeout(function(){
             error.code.should.equal('ECONNRESET');
-            res.timedout.should.be.false;
+            req.timedout.should.be.false;
             done();
           }, 200);
         });
