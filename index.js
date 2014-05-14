@@ -9,6 +9,7 @@
  */
 
 var debug = require('debug')('connect:timeout');
+var onHeaders = require('on-headers');
 
 /**
  * Timeout:
@@ -49,11 +50,9 @@ module.exports = function timeout(ms, options) {
 
     req.timedout = false;
 
-    var writeHead = res.writeHead;
-    res.writeHead = function(){
+    onHeaders(res, function(){
       clearTimeout(id);
-      writeHead.apply(res, arguments);
-    }
+    });
 
     next();
   };

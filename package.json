@@ -18,7 +18,8 @@
     "url": "https://github.com/expressjs/timeout/issues"
   },
   "dependencies": {
-    "debug": "0.8.1"
+    "debug": "0.8.1",
+    "on-headers": "0.0.0"
   },
   "devDependencies": {
     "mocha": ">= 1.18.0 < 2.0",
