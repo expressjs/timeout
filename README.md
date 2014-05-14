@@ -4,7 +4,9 @@ Times out the request in `ms`, defaulting to `5000`.
 
 ## Install
 
-    npm install connect-timeout
+```sh
+$ npm install connect-timeout
+```
 
 ## API
 
