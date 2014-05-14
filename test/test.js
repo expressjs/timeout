@@ -1,130 +1,100 @@
 
-process.env.NODE_ENV = 'test';
-
-var connect = require('connect');
+var http = require('http');
 var request = require('supertest');
 var timeout = require('..');
-
-var app = connect()
-  .use(timeout(300))
-  .use(function(req, res){
-    res.end('Hello');
-  });
 
 describe('timeout()', function(){
   describe('when below the timeout', function(){
     it('should do nothing', function(done){
-      request(app.listen())
+      var server = createServer(null, function(req, res){
+        res.end('Hello')
+      })
+      request(server)
       .get('/')
-      .expect('Hello', done);
+      .expect(200, 'Hello', done)
     })
   })
 
   describe('when above the timeout', function(){
     describe('with no response made', function(){
       it('should respond with 503 Request timeout', function(done){
-        var app = connect()
-          .use(timeout(300))
-          .use(function(req, res){
-            setTimeout(function(){
-              req.timedout.should.be.true;
-              res.end('Hello');
-            }, 400);
-          });
+        var server = createServer(null, null, function(req, res){
+          req.timedout.should.be.true
+          res.end('Hello')
+        })
 
-        request(app.listen())
+        request(server)
         .get('/')
-        .expect(503, done);
+        .expect(503, done)
       })
 
       it('should pass the error to next()', function(done){
-        var app = connect()
-          .use(timeout(300))
-          .use(function(req, res){
-            setTimeout(function(){
-              req.timedout.should.be.true;
-              res.end('Hello');
-            }, 400);
-          })
-          .use(function(err, req, res, next){
-            res.statusCode = err.status;
-            res.end('timeout of ' + err.timeout + 'ms exceeded');
-          });
+        var server = createServer(null, null, function(req, res){
+          req.timedout.should.be.true
+          res.end('Hello')
+        })
 
-        request(app.listen())
+        request(server)
         .get('/')
-        .expect('timeout of 300ms exceeded', done);
+        .expect('Response timeout after 100ms', done);
       })
     })
 
     describe('with a partial response', function(){
       it('should do nothing', function(done){
-        var app = connect()
-          .use(timeout(300))
-          .use(function(req, res){
-            res.write('Hello');
-            setTimeout(function(){
-              req.timedout.should.be.false;
-              res.end(' World');
-            }, 400);
-          });
+        var server = createServer(null,
+          function(req, res){ res.write('Hello') },
+          function(req, res){
+            req.timedout.should.be.false
+            res.end(' World')
+          })
 
-        request(app.listen())
+        request(server)
         .get('/')
-        .expect('Hello World', done);
+        .expect(200, 'Hello World', done)
       })
     })
   })
 
   describe('options', function(){
     it('can disable auto response', function(done){
-      var app = connect()
-        .use(timeout(300, {respond: false}))
-        .use(function(req, res){
-          setTimeout(function(){
-            res.end('Timedout ' + req.timedout);
-          }, 400);
-        });
+      var server = createServer({respond: false}, null, function(req, res){
+        res.end('Timedout ' + req.timedout)
+      })
 
-      request(app.listen())
+      request(server)
       .get('/')
-      .expect('Timedout true', done);
+      .expect(200, 'Timedout true', done)
     })
   })
 
   describe('req.clearTimeout()', function(){
     it('should revert this behavior', function(done){
-      var app = connect()
-        .use(timeout(300))
-        .use(function(req, res){
-          req.clearTimeout();
-          setTimeout(function(){
-            req.timedout.should.be.false;
-            res.end('Hello');
-          }, 400);
-        });
+      var server = createServer(null,
+        function(req, res){ req.clearTimeout() },
+        function(req, res){
+          req.timedout.should.be.false
+          res.end('Hello')
+        })
 
-      request(app.listen())
+      request(server)
       .get('/')
-      .expect('Hello', done);
+      .expect(200, 'Hello', done)
     })
   })
 
   describe('destroy()', function(){
     it('req should clear timer', function(done){
-      var app = connect()
-        .use(timeout(100))
-        .use(function(req, res){
-          req.destroy();
-          setTimeout(function(){
-            error.code.should.equal('ECONNRESET');
-            req.timedout.should.be.false;
-            done();
-          }, 200);
-        });
+      var server = createServer(null,
+        function(req, res){ req.destroy() },
+        function(req, res){
+          error.code.should.equal('ECONNRESET')
+          req.timedout.should.be.false
+          done()
+        })
       var error;
 
-      request(app.listen())
+      request(server)
       .get('/')
       .end(function(err){
         error = err
@@ -132,19 +102,16 @@ describe('timeout()', function(){
     })
 
     it('res should clear timer', function(done){
-      var app = connect()
-        .use(timeout(100))
-        .use(function(req, res){
-          res.destroy();
-          setTimeout(function(){
-            error.code.should.equal('ECONNRESET');
-            req.timedout.should.be.false;
-            done();
-          }, 200);
-        });
+      var server = createServer(null,
+        function(req, res){ res.destroy() },
+        function(req, res){
+          error.code.should.equal('ECONNRESET')
+          req.timedout.should.be.false
+          done()
+        })
       var error;
 
-      request(app.listen())
+      request(server)
       .get('/')
       .end(function(err){
         error = err
@@ -152,19 +119,16 @@ describe('timeout()', function(){
     })
 
     it('socket should clear timer', function(done){
-      var app = connect()
-        .use(timeout(100))
-        .use(function(req, res){
-          req.socket.destroy();
-          setTimeout(function(){
-            error.code.should.equal('ECONNRESET');
-            req.timedout.should.be.false;
-            done();
-          }, 200);
-        });
+      var server = createServer(null,
+        function(req, res){ req.socket.destroy() },
+        function(req, res){
+          error.code.should.equal('ECONNRESET')
+          req.timedout.should.be.false
+          done()
+        })
       var error;
 
-      request(app.listen())
+      request(server)
       .get('/')
       .end(function(err){
         error = err
@@ -172,3 +136,27 @@ describe('timeout()', function(){
     })
   })
 })
+
+function createServer(options, before, after) {
+  var _timeout = timeout(100, options)
+
+  return http.createServer(function (req, res) {
+    _timeout(req, res, function (err) {
+      if (err) {
+        res.statusCode = err.status || 500
+        res.end(err.message + ' after ' + err.timeout + 'ms')
+        return
+      }
+
+      if (before) {
+        before(req, res)
+      }
+
+      if (after) {
+        setTimeout(function(){
+          after(req, res)
+        }, 200)
+      }
+    })
+  })
+}

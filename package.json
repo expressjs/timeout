@@ -30,8 +30,7 @@
   "devDependencies": {
     "mocha": ">= 1.18.0 < 2.0",
     "should": ">= 3.3.0 < 4.0",
-    "supertest": "*",
-    "connect": "*"
+    "supertest": "~0.12.1"
   },
   "engines": {
     "node": ">= 0.8"
