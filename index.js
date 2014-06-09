@@ -58,6 +58,15 @@ module.exports = function timeout(ms, options) {
   };
 };
 
+/**
+ * halt
+ * See README.md for documentation.
+ *
+ * @return {Function} a utility middleware function to halt the middleware chain in case a timeout has occured
+ * @api public
+ */
+module.exports.halt = haltOnTimeout;
+
 function generateTimeoutError(){
   var err = new Error('Response timeout');
   err.code = 'ETIMEDOUT';
@@ -72,4 +81,8 @@ function onTimeout(ms, cb){
     err.timeout = ms;
     cb(err);
   };
+}
+
+function haltOnTimedout(req, res, next){
+  if (!req.timedout) next();
 }
