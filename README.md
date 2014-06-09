@@ -13,7 +13,9 @@ $ npm install connect-timeout
 
 ## API
 
-**NOTE** This module is not recommend as a "top-level" middleware (i.e. do not recommend for use as `app.use(timeout(5000))`).
+**NOTE** This module is not recommend as a "top-level" middleware (i.e. `app.use(timeout(5000))`) unless
+you take precautions to halt your own middleware processing. See [as top-level middleware](#as-top-level-middleware)
+for how to use as a top-level middleware.
 
 ### timeout(ms, options)
 
@@ -34,6 +36,11 @@ Clears the timeout on the request.
 ## Examples
 
 ### as top-level middleware
+
+Because of the way middleware processing works, this once this module passes the request
+to the next middleware (which it has to do in order for you to do work), it can no longer
+stop the flow, so you must take care to check if the request has timedout before you
+continue to act on the request.
 
 ```javascript
 var express = require('express');
@@ -86,14 +93,15 @@ function savePost(post, cb){
 app.listen(3000);
 ```
 
-### connect 2.x
+### connect
 
 ```javascript
+var bodyParser = require('body-parser');
 var connect = require('connect');
 var timeout = require('connect-timeout');
 
 var app = require('connect');
-app.use('/save', timeout(5000), connect.json(), haltOnTimedout, function(req, res, next){
+app.use('/save', timeout(5000), bodyParser.json(), haltOnTimedout, function(req, res, next){
   savePost(req.body, function(err, id){
     if (err) return next(err);
     if (req.timedout) return;
