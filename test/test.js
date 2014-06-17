@@ -135,6 +135,25 @@ describe('timeout()', function(){
       });
     })
   })
+
+  describe('when request aborted', function(){
+    it('should clear timeout', function(done){
+      var aborted = false
+      var server = createServer(null,
+        function(req, res){
+          req.on('aborted', function(){ aborted = true })
+          test.abort()
+        },
+        function(req, res){
+          aborted.should.be.true
+          req.timedout.should.be.false
+          done()
+        })
+      var error
+      var test = request(server).post('/')
+      test.write('0')
+    })
+  })
 })
 
 function createServer(options, before, after) {
