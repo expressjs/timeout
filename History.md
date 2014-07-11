@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * Accept string for `time` (converted by `ms`)
   * deps: debug@1.0.3
     - Add support for multiple wildcards in namespaces
 

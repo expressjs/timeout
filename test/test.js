@@ -5,6 +5,28 @@ var should = require('should');
 var timeout = require('..');
 
 describe('timeout()', function(){
+  it('should have a default timeout', function (done) {
+    this.timeout(10000)
+    var server = createServer()
+    request(server)
+    .get('/')
+    .expect(503, done)
+  })
+
+  it('should accept millisecond timeout', function (done) {
+    var server = createServer(123)
+    request(server)
+    .get('/')
+    .expect(503, /123ms/, done)
+  })
+
+  it('should accept string timeout', function (done) {
+    var server = createServer('45ms')
+    request(server)
+    .get('/')
+    .expect(503, /45ms/, done)
+  })
+
   describe('when below the timeout', function(){
     it('should do nothing', function(done){
       var server = createServer(null, function(req, res){
@@ -158,7 +180,14 @@ describe('timeout()', function(){
 })
 
 function createServer(options, before, after) {
-  var _timeout = timeout(100, options)
+  var _ms = 100
+
+  if (typeof options !== 'object') {
+    _ms = options
+    options = {}
+  }
+
+  var _timeout = timeout(_ms, options)
 
   return http.createServer(function (req, res) {
     _timeout(req, res, function (err) {
@@ -175,7 +204,7 @@ function createServer(options, before, after) {
       if (after) {
         setTimeout(function(){
           after(req, res)
-        }, 200)
+        }, (_ms + 100))
       }
     })
   })

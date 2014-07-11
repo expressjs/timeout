@@ -14,13 +14,13 @@ $ npm install connect-timeout
 
 ## API
 
-**NOTE** This module is not recommend as a "top-level" middleware (i.e. `app.use(timeout(5000))`) unless
+**NOTE** This module is not recommend as a "top-level" middleware (i.e. `app.use(timeout('5s'))`) unless
 you take precautions to halt your own middleware processing. See [as top-level middleware](#as-top-level-middleware)
 for how to use as a top-level middleware.
 
-### timeout(ms, options)
+### timeout(time, options)
 
-Returns middleware that times out in `ms` milliseconds. On timeout, `req` will emit `"timeout"`.
+Returns middleware that times out in `time` milliseconds. `time` can also be a string accepted by the [ms](https://www.npmjs.org/package/ms#readme) module. On timeout, `req` will emit `"timeout"`.
 
 #### options
 
@@ -50,7 +50,7 @@ var timeout = require('connect-timeout');
 // example of using this top-level; note the use of haltOnTimedout
 // after every middleware; it will stop the request flow on a timeout
 var app = express();
-app.use(timeout(5000));
+app.use(timeout('5s'));
 app.use(bodyParser());
 app.use(haltOnTimedout);
 app.use(cookieParser());
@@ -73,7 +73,7 @@ var bodyParser = require('body-parser');
 var timeout = require('connect-timeout');
 
 var app = express();
-app.post('/save', timeout(5000), bodyParser.json(), haltOnTimedout, function(req, res, next){
+app.post('/save', timeout('5s'), bodyParser.json(), haltOnTimedout, function(req, res, next){
   savePost(req.body, function(err, id){
     if (err) return next(err);
     if (req.timedout) return;
@@ -102,7 +102,7 @@ var connect = require('connect');
 var timeout = require('connect-timeout');
 
 var app = require('connect');
-app.use('/save', timeout(5000), bodyParser.json(), haltOnTimedout, function(req, res, next){
+app.use('/save', timeout('5s'), bodyParser.json(), haltOnTimedout, function(req, res, next){
   savePost(req.body, function(err, id){
     if (err) return next(err);
     if (req.timedout) return;

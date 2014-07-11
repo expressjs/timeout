@@ -9,6 +9,7 @@
  */
 
 var debug = require('debug')('connect:timeout');
+var ms = require('ms');
 var onHeaders = require('on-headers');
 
 /**
@@ -16,15 +17,18 @@ var onHeaders = require('on-headers');
  *
  * See README.md for documentation.
  *
- * @param {Number} ms
+ * @param {Number} time
  * @param {Object} options
  * @return {Function} middleware
  * @api public
  */
 
-module.exports = function timeout(ms, options) {
-  ms = ms || 5000;
+module.exports = function timeout(time, options) {
   options = options || {};
+
+  time = typeof time === 'string'
+    ? ms(time)
+    : Number(time || 5000);
 
   var respond = !('respond' in options) || options.respond === true;
 
@@ -32,11 +36,11 @@ module.exports = function timeout(ms, options) {
     var destroy = req.socket.destroy;
     var id = setTimeout(function(){
       req.timedout = true;
-      req.emit('timeout', ms);
-    }, ms);
+      req.emit('timeout', time);
+    }, time);
 
     if (respond) {
-      req.on('timeout', onTimeout(ms, next));
+      req.on('timeout', onTimeout(time, next));
     }
 
     req.clearTimeout = function(){
@@ -65,10 +69,10 @@ function generateTimeoutError(){
   return err;
 }
 
-function onTimeout(ms, cb){
+function onTimeout(time, cb){
   return function(){
     var err = generateTimeoutError();
-    err.timeout = ms;
+    err.timeout = time;
     cb(err);
   };
 }
