@@ -2,6 +2,7 @@
 
 [![NPM version](https://badge.fury.io/js/connect-timeout.svg)](http://badge.fury.io/js/connect-timeout)
 [![Build Status](https://travis-ci.org/expressjs/timeout.svg?branch=master)](https://travis-ci.org/expressjs/timeout)
+[![Coverage Status](https://img.shields.io/coveralls/expressjs/timeout.svg?branch=master)](https://coveralls.io/r/expressjs/timeout)
 
 Times out the request in `ms`, defaulting to `5000`.
 
