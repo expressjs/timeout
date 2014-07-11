@@ -67,7 +67,6 @@ function generateTimeoutError(){
 
 function onTimeout(ms, cb){
   return function(){
-    if (this._header) return debug('response started, cannot timeout');
     var err = generateTimeoutError();
     err.timeout = ms;
     cb(err);
