@@ -1,5 +1,5 @@
-unreleased
-==========
+1.2.0 / 2014-07-11
+==================
 
   * Accept string for `time` (converted by `ms`)
   * deps: debug@1.0.3
