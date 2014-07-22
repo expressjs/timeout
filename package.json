@@ -9,7 +9,7 @@
   "license": "MIT",
   "repository": "expressjs/timeout",
   "dependencies": {
-    "debug": "1.0.3",
+    "debug": "1.0.4",
     "ms": "0.6.2",
     "on-headers": "0.0.0"
   },
