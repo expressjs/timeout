@@ -1,6 +1,7 @@
 /*!
- * Expressjs | Connect - timeout
- * Ported from https://github.com/LearnBoost/connect-timeout
+ * connect-timeout
+ * Copyright(c) 2014 Jonathan Ong
+ * Copyright(c) 2014 Douglas Christopher Wilson
  * MIT Licensed
  */
 
