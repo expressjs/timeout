@@ -1,8 +1,9 @@
 # connect-timeout
 
-[![NPM version](https://badge.fury.io/js/connect-timeout.svg)](http://badge.fury.io/js/connect-timeout)
-[![Build Status](https://travis-ci.org/expressjs/timeout.svg?branch=master)](https://travis-ci.org/expressjs/timeout)
-[![Coverage Status](https://img.shields.io/coveralls/expressjs/timeout.svg?branch=master)](https://coveralls.io/r/expressjs/timeout)
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+[![Build Status][travis-image]][travis-url]
+[![Test Coverage][coveralls-image]][coveralls-url]
 
 Times out the request in `ms`, defaulting to `5000`.
 
@@ -126,3 +127,12 @@ app.listen(3000);
 ## License
 
 [MIT](LICENSE)
+
+[npm-image]: https://img.shields.io/npm/v/connect-timeout.svg?style=flat
+[npm-url]: https://npmjs.org/package/connect-timeout
+[travis-image]: https://img.shields.io/travis/expressjs/timeout.svg?style=flat
+[travis-url]: https://travis-ci.org/expressjs/timeout
+[coveralls-image]: https://img.shields.io/coveralls/expressjs/timeout.svg?style=flat
+[coveralls-url]: https://coveralls.io/r/expressjs/timeout?branch=master
+[downloads-image]: https://img.shields.io/npm/dm/connect-timeout.svg?style=flat
+[downloads-url]: https://npmjs.org/package/connect-timeout
