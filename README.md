@@ -4,6 +4,7 @@
 [![NPM Downloads][downloads-image]][downloads-url]
 [![Build Status][travis-image]][travis-url]
 [![Test Coverage][coveralls-image]][coveralls-url]
+[![Gratipay][gratipay-image]][gratipay-url]
 
 Times out the request in `ms`, defaulting to `5000`.
 
@@ -136,3 +137,5 @@ app.listen(3000);
 [coveralls-url]: https://coveralls.io/r/expressjs/timeout?branch=master
 [downloads-image]: https://img.shields.io/npm/dm/connect-timeout.svg?style=flat
 [downloads-url]: https://npmjs.org/package/connect-timeout
+[gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg?style=flat
+[gratipay-url]: https://www.gratipay.com/dougwilson/
