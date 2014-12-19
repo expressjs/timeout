@@ -27,6 +27,15 @@ describe('timeout()', function(){
     .expect(503, /45ms/, done)
   })
 
+  it('should accept function timeout', function (done) {
+    var server = createServer(function(req) {
+      return req.url === '/' ? 45 : 100
+    })
+    request(server)
+      .get('/')
+      .expect(503, /45ms/, done)
+  })
+
   describe('when below the timeout', function(){
     it('should do nothing', function(done){
       var server = createServer(null, function(req, res){
@@ -35,6 +44,17 @@ describe('timeout()', function(){
       request(server)
       .get('/')
       .expect(200, 'Hello', done)
+    })
+
+    it('should do nothing with computed time', function(done){
+      var server = createServer(function(req) {
+          return req.url === '/' ? 255 : 100
+        }, function(req, res){
+          res.end('Hello')
+      })
+      request(server)
+        .get('/')
+        .expect(200, 'Hello', done)
     })
   })
 
@@ -49,6 +69,19 @@ describe('timeout()', function(){
         request(server)
         .get('/')
         .expect(503, done)
+      })
+
+      it('should respond with 503 Request timeout with computed time', function(done){
+        var server = createServer(function(req) {
+          return req.url === '/' ? 255 : 100
+        }, null, function(req, res){
+          req.timedout.should.be.true
+          res.end('Hello')
+        })
+
+        request(server)
+          .get('/')
+          .expect(503, done)
       })
 
       it('should pass the error to next()', function(done){
@@ -204,7 +237,7 @@ function createServer(options, before, after) {
       if (after) {
         setTimeout(function(){
           after(req, res)
-        }, (_ms + 100))
+        }, (typeof _ms === 'function' ? _ms(req) : _ms + 100))
       }
     })
   })
