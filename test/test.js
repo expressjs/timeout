@@ -36,6 +36,19 @@ describe('timeout()', function(){
       .get('/')
       .expect(200, 'Hello', done)
     })
+
+    it('should do nothing with computed time', function(done){
+      var server = createServer(function(req) {
+          return req.url === '/' ? 255 : 100
+        },
+        function(req, res){
+          req.timeoutValue.should.equal(255)
+          res.end('Hello')
+      })
+      request(server)
+        .get('/')
+        .expect(200, 'Hello', done)
+    })
   })
 
   describe('when above the timeout', function(){
@@ -43,12 +56,27 @@ describe('timeout()', function(){
       it('should respond with 503 Request timeout', function(done){
         var server = createServer(null, null, function(req, res){
           req.timedout.should.be.true
+          req.timeoutValue.should.equal(100)
           res.end('Hello')
         })
 
         request(server)
         .get('/')
         .expect(503, done)
+      })
+
+      it('should respond with 503 Request timeout with computed time', function(done){
+        var server = createServer(function(req) {
+          return req.url === '/' ? 255 : 100
+        }, null, function(req, res){
+          req.timedout.should.be.true
+          req.timeoutValue.should.equal(255)
+          res.end('Hello')
+        })
+
+        request(server)
+          .get('/')
+          .expect(503, done)
       })
 
       it('should pass the error to next()', function(done){
@@ -204,7 +232,7 @@ function createServer(options, before, after) {
       if (after) {
         setTimeout(function(){
           after(req, res)
-        }, (_ms + 100))
+        }, (req.timeoutValue + 100))
       }
     })
   })
