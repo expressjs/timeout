@@ -39,16 +39,15 @@ module.exports = function timeout(time, options) {
   return function(req, res, next) {
     var destroy = req.socket.destroy;
 
-    var computed_time = time;
-    req.timeoutValue = typeof time === 'function' ? time(req) : time;
+    var computed_time = typeof time === 'function' ? time(req) : time;
 
     var id = setTimeout(function(){
       req.timedout = true;
-      req.emit('timeout', req.timeoutValue);
-    }, req.timeoutValue);
+      req.emit('timeout', computed_time);
+    }, computed_time);
 
     if (respond) {
-      req.on('timeout', onTimeout(req.timeoutValue, next));
+      req.on('timeout', onTimeout(computed_time, next));
     }
 
     req.clearTimeout = function(){
