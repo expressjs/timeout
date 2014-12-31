@@ -1,6 +1,7 @@
 unreleased
 ==========
 
+  * deps: debug@~2.1.1
   * deps: http-errors@~1.2.8
     - Fix stack trace from exported function
 
