@@ -1,7 +1,7 @@
 
+var assert = require('assert');
 var http = require('http');
 var request = require('supertest');
-var should = require('should');
 var timeout = require('..');
 
 describe('timeout()', function(){
@@ -42,7 +42,7 @@ describe('timeout()', function(){
     describe('with no response made', function(){
       it('should respond with 503 Request timeout', function(done){
         var server = createServer(null, null, function(req, res){
-          req.timedout.should.be.true
+          assert.ok(req.timedout)
           res.end('Hello')
         })
 
@@ -53,7 +53,7 @@ describe('timeout()', function(){
 
       it('should pass the error to next()', function(done){
         var server = createServer(null, null, function(req, res){
-          req.timedout.should.be.true
+          assert.ok(req.timedout)
           res.end('Hello')
         })
 
@@ -68,7 +68,7 @@ describe('timeout()', function(){
         var server = createServer(null,
           function(req, res){ res.write('Hello') },
           function(req, res){
-            req.timedout.should.be.false
+            assert.ok(!req.timedout)
             res.end(' World')
           })
 
@@ -96,7 +96,7 @@ describe('timeout()', function(){
       var server = createServer(null,
         function(req, res){ req.clearTimeout() },
         function(req, res){
-          req.timedout.should.be.false
+          assert.ok(!req.timedout)
           res.end('Hello')
         })
 
@@ -111,8 +111,8 @@ describe('timeout()', function(){
       var server = createServer(null,
         function(req, res){ req.destroy() },
         function(req, res){
-          error.code.should.equal('ECONNRESET')
-          req.timedout.should.be.false
+          assert.equal(error.code, 'ECONNRESET')
+          assert.ok(!req.timedout)
           done()
         })
       var error;
@@ -128,8 +128,8 @@ describe('timeout()', function(){
       var server = createServer(null,
         function(req, res){ res.destroy() },
         function(req, res){
-          error.code.should.equal('ECONNRESET')
-          req.timedout.should.be.false
+          assert.equal(error.code, 'ECONNRESET')
+          assert.ok(!req.timedout)
           done()
         })
       var error;
@@ -145,8 +145,8 @@ describe('timeout()', function(){
       var server = createServer(null,
         function(req, res){ req.socket.destroy() },
         function(req, res){
-          error.code.should.equal('ECONNRESET')
-          req.timedout.should.be.false
+          assert.equal(error.code, 'ECONNRESET')
+          assert.ok(!req.timedout)
           done()
         })
       var error;
@@ -168,8 +168,8 @@ describe('timeout()', function(){
           test.abort()
         },
         function(req, res){
-          aborted.should.be.true
-          req.timedout.should.be.false
+          assert.ok(aborted)
+          assert.ok(!req.timedout)
           done()
         })
       var error
