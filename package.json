@@ -10,7 +10,7 @@
   "repository": "expressjs/timeout",
   "dependencies": {
     "debug": "~2.1.0",
-    "http-errors": "~1.2.7",
+    "http-errors": "~1.2.8",
     "ms": "0.6.2",
     "on-headers": "~1.0.0"
   },
