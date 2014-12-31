@@ -11,7 +11,7 @@
   "dependencies": {
     "debug": "~2.1.1",
     "http-errors": "~1.2.8",
-    "ms": "0.6.2",
+    "ms": "0.7.0",
     "on-headers": "~1.0.0"
   },
   "devDependencies": {
