@@ -129,13 +129,13 @@ app.listen(3000);
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/connect-timeout.svg?style=flat
+[npm-image]: https://img.shields.io/npm/v/connect-timeout.svg
 [npm-url]: https://npmjs.org/package/connect-timeout
-[travis-image]: https://img.shields.io/travis/expressjs/timeout.svg?style=flat
+[travis-image]: https://img.shields.io/travis/expressjs/timeout/master.svg
 [travis-url]: https://travis-ci.org/expressjs/timeout
-[coveralls-image]: https://img.shields.io/coveralls/expressjs/timeout.svg?style=flat
+[coveralls-image]: https://img.shields.io/coveralls/expressjs/timeout/master.svg
 [coveralls-url]: https://coveralls.io/r/expressjs/timeout?branch=master
-[downloads-image]: https://img.shields.io/npm/dm/connect-timeout.svg?style=flat
+[downloads-image]: https://img.shields.io/npm/dm/connect-timeout.svg
 [downloads-url]: https://npmjs.org/package/connect-timeout
-[gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg?style=flat
+[gratipay-image]: https://img.shields.io/gratipay/dougwilson.svg
 [gratipay-url]: https://www.gratipay.com/dougwilson/
