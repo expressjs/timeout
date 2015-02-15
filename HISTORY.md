@@ -1,3 +1,11 @@
+unreleased
+==========
+
+  * deps: http-errors@~1.3.1
+    - Construct errors using defined constructors from `createError`
+    - Fix error names that are not identifiers
+    - Set a meaningful `name` property on constructed errors
+
 1.5.0 / 2014-12-30
 ==================
 
