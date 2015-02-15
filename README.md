@@ -16,17 +16,28 @@ $ npm install connect-timeout
 
 ## API
 
-**NOTE** This module is not recommend as a "top-level" middleware (i.e. `app.use(timeout('5s'))`) unless
-you take precautions to halt your own middleware processing. See [as top-level middleware](#as-top-level-middleware)
+**NOTE** This module is not recommend as a "top-level" middleware (i.e.
+`app.use(timeout('5s'))`) unless you take precautions to halt your own
+middleware processing. See [as top-level middleware](#as-top-level-middleware)
 for how to use as a top-level middleware.
 
-### timeout(time, options)
+### timeout(time, [options])
 
-Returns middleware that times out in `time` milliseconds. `time` can also be a string accepted by the [ms](https://www.npmjs.org/package/ms#readme) module. On timeout, `req` will emit `"timeout"`.
+Returns middleware that times out in `time` milliseconds. `time` can also
+be a string accepted by the [ms](https://www.npmjs.org/package/ms#readme)
+module. On timeout, `req` will emit `"timeout"`.
 
-#### options
+#### Options
 
-* `respond` - If `true`, the timeout error is passed to `next()` so that you may customize the response behavior. This error has a `.timeout` property as well as `.status == 503`. This defaults to `true`.
+The `timeout` function takes an optional `options` object that may contain
+any of the following keys:
+
+##### respond
+
+Controls if this module will "respond" in the form of forwarding an error.
+If `true`, the timeout error is passed to `next()` so that you may customize
+the response behavior. This error has a `.timeout` property as well as
+`.status == 503`. This defaults to `true`.
 
 ### req.clearTimeout()
 
@@ -40,10 +51,11 @@ Clears the timeout on the request.
 
 ### as top-level middleware
 
-Because of the way middleware processing works, this once this module passes the request
-to the next middleware (which it has to do in order for you to do work), it can no longer
-stop the flow, so you must take care to check if the request has timedout before you
-continue to act on the request.
+Because of the way middleware processing works, this once this module
+passes the request to the next middleware (which it has to do in order
+for you to do work), it can no longer stop the flow, so you must take
+care to check if the request has timedout before you continue to act
+on the request.
 
 ```javascript
 var express = require('express');
