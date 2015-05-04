@@ -41,7 +41,8 @@ the response behavior. This error has a `.timeout` property as well as
 
 ### req.clearTimeout()
 
-Clears the timeout on the request.
+Clears the timeout on the request. The timeout is completely removed and
+will not fire for this request in the future.
 
 ### req.timedout
 
