@@ -3,6 +3,8 @@ unreleased
 
   * deps: debug@~2.2.0
     - deps: ms@0.7.1
+  * deps: ms@0.7.1
+    - Prevent extraordinarily long inputs
 
 1.6.1 / 2015-03-14
 ==================
