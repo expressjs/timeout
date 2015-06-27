@@ -52,7 +52,7 @@ will not fire for this request in the future.
 
 ### as top-level middleware
 
-Because of the way middleware processing works, this once this module
+Because of the way middleware processing works, once this module
 passes the request to the next middleware (which it has to do in order
 for you to do work), it can no longer stop the flow, so you must take
 care to check if the request has timedout before you continue to act
