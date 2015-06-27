@@ -59,7 +59,7 @@ describe('timeout()', function(){
 
         request(server)
         .get('/')
-        .expect('Response timeout after 100ms', done);
+        .expect(503, 'Response timeout after 100ms', done)
       })
     })
 
