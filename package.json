@@ -1,6 +1,6 @@
 {
   "name": "connect-timeout",
-  "description": "timeout middleware",
+  "description": "Request timeout middleware for Connect/Express",
   "version": "1.6.2",
   "contributors": [
     "Douglas Christopher Wilson <doug@somethingdoug.com>",

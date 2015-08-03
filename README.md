@@ -6,7 +6,7 @@
 [![Test Coverage][coveralls-image]][coveralls-url]
 [![Gratipay][gratipay-image]][gratipay-url]
 
-Times out the request in `ms`, defaulting to `5000`.
+Times out a request in the Connect/Express application framework.
 
 ## Install
 
