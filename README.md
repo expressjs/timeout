@@ -21,6 +21,14 @@ $ npm install connect-timeout
 middleware processing. See [as top-level middleware](#as-top-level-middleware)
 for how to use as a top-level middleware.
 
+While the library will emit a 'timeout' event when requests exceed the given
+timeout, node will continue processing the slow request until it terminates.
+Slow requests will continue to use CPU and memory, even if you are returning
+a HTTP response in the timeout callback. For better control over CPU/memory,
+you may need to find the events that are taking a long time (3rd party HTTP
+requests, disk I/O, database calls) and find a way to cancel them, and/or
+close the attached sockets.
+
 ### timeout(time, [options])
 
 Returns middleware that times out in `time` milliseconds. `time` can also
