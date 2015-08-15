@@ -1,3 +1,8 @@
+unreleased
+==========
+
+  * perf: enable strict mode
+
 1.6.2 / 2015-05-11
 ==================
 
