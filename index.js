@@ -34,7 +34,7 @@ module.exports = function timeout(time, options) {
     ? ms(time)
     : Number(time || 5000);
 
-  var respond = !('respond' in opts) || opts.respond === true;
+  var respond = opts.respond === undefined || opts.respond === true;
 
   return function(req, res, next) {
     var destroy = req.socket.destroy;

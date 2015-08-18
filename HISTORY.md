@@ -3,6 +3,7 @@ unreleased
 
   * perf: enable strict mode
   * perf: remove argument reassignment
+  * perf: use standard option existence check
 
 1.6.2 / 2015-05-11
 ==================
