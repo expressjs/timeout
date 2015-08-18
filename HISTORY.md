@@ -2,6 +2,7 @@ unreleased
 ==========
 
   * perf: enable strict mode
+  * perf: remove argument reassignment
 
 1.6.2 / 2015-05-11
 ==================

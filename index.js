@@ -28,23 +28,23 @@ var onHeaders = require('on-headers');
  */
 
 module.exports = function timeout(time, options) {
-  options = options || {};
+  var opts = options || {};
 
-  time = typeof time === 'string'
+  var delay = typeof time === 'string'
     ? ms(time)
     : Number(time || 5000);
 
-  var respond = !('respond' in options) || options.respond === true;
+  var respond = !('respond' in opts) || opts.respond === true;
 
   return function(req, res, next) {
     var destroy = req.socket.destroy;
     var id = setTimeout(function(){
       req.timedout = true;
-      req.emit('timeout', time);
-    }, time);
+      req.emit('timeout', delay);
+    }, delay);
 
     if (respond) {
-      req.on('timeout', onTimeout(time, next));
+      req.on('timeout', onTimeout(delay, next));
     }
 
     req.clearTimeout = function(){
@@ -66,11 +66,11 @@ module.exports = function timeout(time, options) {
   };
 };
 
-function onTimeout(time, cb){
+function onTimeout(delay, cb) {
   return function(){
     cb(createError(503, 'Response timeout', {
       code: 'ETIMEDOUT',
-      timeout: time
+      timeout: delay
     }));
   };
 }
