@@ -1,6 +1,9 @@
 unreleased
 ==========
 
+  * Use `on-finished` instead of override socket destroy
+    - Addresses memory leaking on keep alive connections
+    - Ensures timers always get cleaned up
   * perf: enable strict mode
   * perf: remove argument reassignment
   * perf: use standard option existence check

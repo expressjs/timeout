@@ -1,7 +1,7 @@
 /*!
  * connect-timeout
  * Copyright(c) 2014 Jonathan Ong
- * Copyright(c) 2014 Douglas Christopher Wilson
+ * Copyright(c) 2014-2015 Douglas Christopher Wilson
  * MIT Licensed
  */
 
@@ -14,6 +14,7 @@
 var createError = require('http-errors');
 var debug = require('debug')('connect:timeout');
 var ms = require('ms');
+var onFinished = require('on-finished');
 var onHeaders = require('on-headers');
 
 /**
@@ -37,7 +38,6 @@ module.exports = function timeout(time, options) {
   var respond = opts.respond === undefined || opts.respond === true;
 
   return function(req, res, next) {
-    var destroy = req.socket.destroy;
     var id = setTimeout(function(){
       req.timedout = true;
       req.emit('timeout', delay);
@@ -51,14 +51,13 @@ module.exports = function timeout(time, options) {
       clearTimeout(id);
     };
 
-    req.socket.destroy = function(){
-      clearTimeout(id);
-      destroy.call(this);
-    };
-
     req.timedout = false;
 
-    onHeaders(res, function(){
+    onFinished(res, function () {
+      clearTimeout(id);
+    });
+
+    onHeaders(res, function () {
       clearTimeout(id);
     });
 
