@@ -59,6 +59,7 @@ module.exports = function timeout(time, options) {
 
     onHeaders(res, function () {
       clearTimeout(id);
+      req.socket.destroy = destroy;
     });
 
     next();
