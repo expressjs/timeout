@@ -1,5 +1,5 @@
-unreleased
-==========
+1.7.0 / 2015-08-23
+==================
 
   * Use `on-finished` instead of override socket destroy
     - Addresses memory leaking on keep alive connections
