@@ -38,13 +38,14 @@ module.exports = function timeout(time, options) {
   var respond = opts.respond === undefined || opts.respond === true;
 
   return function(req, res, next) {
+    req.setTimeout(0);
     var id = setTimeout(function(){
       req.timedout = true;
-      req.emit('timeout', delay);
+      req.emit('connect-timeout', delay);
     }, delay);
 
     if (respond) {
-      req.on('timeout', onTimeout(delay, next));
+      req.on('connect-timeout', onTimeout(delay, next));
     }
 
     req.clearTimeout = function(){
