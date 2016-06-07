@@ -70,6 +70,10 @@ on the request.
 var express = require('express');
 var timeout = require('connect-timeout');
 
+function haltOnTimedout(req, res, next){
+  if (!req.timedout) next();
+}
+
 // example of using this top-level; note the use of haltOnTimedout
 // after every middleware; it will stop the request flow on a timeout
 var app = express();
@@ -80,10 +84,6 @@ app.use(cookieParser());
 app.use(haltOnTimedout);
 
 // Add your routes here, etc.
-
-function haltOnTimedout(req, res, next){
-  if (!req.timedout) next();
-}
 
 app.listen(3000);
 ```
