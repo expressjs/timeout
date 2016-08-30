@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * deps: on-headers@~1.0.1
+    - perf: enable strict mode
+
 1.7.0 / 2015-08-23
 ==================
 
