@@ -1,6 +1,10 @@
 unreleased
 ==========
 
+  * deps: http-errors@~1.4.0
+    - Add `HttpError` export, for `err instanceof createError.HttpError`
+    - deps: inherits@2.0.1
+    - deps: statuses@'>= 1.2.1 < 2'
   * deps: on-headers@~1.0.1
     - perf: enable strict mode
 
