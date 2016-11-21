@@ -5,16 +5,16 @@
  * MIT Licensed
  */
 
-'use strict';
+'use strict'
 
 /**
  * Module dependencies.
  */
 
-var createError = require('http-errors');
-var ms = require('ms');
-var onFinished = require('on-finished');
-var onHeaders = require('on-headers');
+var createError = require('http-errors')
+var ms = require('ms')
+var onFinished = require('on-finished')
+var onHeaders = require('on-headers')
 
 /**
  * Timeout:
@@ -27,48 +27,48 @@ var onHeaders = require('on-headers');
  * @api public
  */
 
-module.exports = function timeout(time, options) {
-  var opts = options || {};
+module.exports = function timeout (time, options) {
+  var opts = options || {}
 
   var delay = typeof time === 'string'
     ? ms(time)
-    : Number(time || 5000);
+    : Number(time || 5000)
 
-  var respond = opts.respond === undefined || opts.respond === true;
+  var respond = opts.respond === undefined || opts.respond === true
 
-  return function(req, res, next) {
-    var id = setTimeout(function(){
-      req.timedout = true;
-      req.emit('timeout', delay);
-    }, delay);
+  return function (req, res, next) {
+    var id = setTimeout(function () {
+      req.timedout = true
+      req.emit('timeout', delay)
+    }, delay)
 
     if (respond) {
-      req.on('timeout', onTimeout(delay, next));
+      req.on('timeout', onTimeout(delay, next))
     }
 
-    req.clearTimeout = function(){
-      clearTimeout(id);
-    };
+    req.clearTimeout = function () {
+      clearTimeout(id)
+    }
 
-    req.timedout = false;
+    req.timedout = false
 
     onFinished(res, function () {
-      clearTimeout(id);
-    });
+      clearTimeout(id)
+    })
 
     onHeaders(res, function () {
-      clearTimeout(id);
-    });
+      clearTimeout(id)
+    })
 
-    next();
-  };
-};
+    next()
+  }
+}
 
-function onTimeout(delay, cb) {
-  return function(){
+function onTimeout (delay, cb) {
+  return function () {
     cb(createError(503, 'Response timeout', {
       code: 'ETIMEDOUT',
       timeout: delay
-    }));
-  };
+    }))
+  }
 }
