@@ -12,7 +12,6 @@
  */
 
 var createError = require('http-errors');
-var debug = require('debug')('connect:timeout');
 var ms = require('ms');
 var onFinished = require('on-finished');
 var onHeaders = require('on-headers');
