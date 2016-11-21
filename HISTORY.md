@@ -1,6 +1,9 @@
 unreleased
 ==========
 
+  * deps: debug@2.3.3
+    - Fix error when running under React Native
+    - deps: ms@0.7.2
   * deps: http-errors@~1.4.0
     - Add `HttpError` export, for `err instanceof createError.HttpError`
     - deps: inherits@2.0.1
