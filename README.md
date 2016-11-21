@@ -128,7 +128,7 @@ var bodyParser = require('body-parser');
 var connect = require('connect');
 var timeout = require('connect-timeout');
 
-var app = require('connect');
+var app = connect();
 app.use('/save', timeout('5s'), bodyParser.json(), haltOnTimedout, function(req, res, next){
   savePost(req.body, function(err, id){
     if (err) return next(err);
