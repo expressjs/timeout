@@ -115,7 +115,7 @@ function haltOnTimedout(req, res, next){
 function savePost(post, cb){
   setTimeout(function(){
     cb(null, ((Math.random()* 40000) >>> 0));
-  }, (Math.random()* 7000) >>> 0));
+  }, (Math.random()* 7000) >>> 0);
 }
 
 app.listen(3000);
@@ -144,7 +144,7 @@ function haltOnTimedout(req, res, next){
 function savePost(post, cb){
   setTimeout(function(){
     cb(null, ((Math.random()* 40000) >>> 0));
-  }, (Math.random()* 7000) >>> 0));
+  }, (Math.random()* 7000) >>> 0);
 }
 
 app.listen(3000);
