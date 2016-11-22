@@ -1,5 +1,5 @@
-unreleased
-==========
+1.8.0 / 2016-11-21
+==================
 
   * Remove un-used debug dependency
   * deps: http-errors@~1.5.1
