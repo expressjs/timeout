@@ -17,6 +17,12 @@ var onFinished = require('on-finished')
 var onHeaders = require('on-headers')
 
 /**
+ * Module exports.
+ */
+
+module.exports = timeout
+
+/**
  * Timeout:
  *
  * See README.md for documentation.
@@ -27,7 +33,7 @@ var onHeaders = require('on-headers')
  * @api public
  */
 
-module.exports = function timeout (time, options) {
+function timeout (time, options) {
   var opts = options || {}
 
   var delay = typeof time === 'string'
