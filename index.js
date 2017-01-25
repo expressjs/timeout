@@ -9,6 +9,7 @@
 
 /**
  * Module dependencies.
+ * @private
  */
 
 var createError = require('http-errors')
@@ -18,6 +19,7 @@ var onHeaders = require('on-headers')
 
 /**
  * Module exports.
+ * @public
  */
 
 module.exports = timeout
@@ -30,7 +32,7 @@ module.exports = timeout
  * @param {Number} time
  * @param {Object} options
  * @return {Function} middleware
- * @api public
+ * @public
  */
 
 function timeout (time, options) {
@@ -69,6 +71,14 @@ function timeout (time, options) {
     next()
   }
 }
+
+/**
+ * Create timeout listener function.
+ *
+ * @param {number} delay
+ * @param {function} cb
+ * @private
+ */
 
 function onTimeout (delay, cb) {
   return function () {
