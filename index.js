@@ -27,7 +27,7 @@ module.exports = timeout
 /**
  * Create a new timeout middleware.
  *
- * @param {number|string} time The timeout as a number of milliseconds or a string for `ms`
+ * @param {number|string} [time=5000] The timeout as a number of milliseconds or a string for `ms`
  * @param {object} [options] Additional options for middleware
  * @param {boolean} [options.respond=true] Automatically emit error when timeout reached
  * @return {function} middleware
