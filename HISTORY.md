@@ -1,6 +1,9 @@
 unreleased
 ==========
 
+  * deps: http-errors@~1.6.1
+    - Make `message` property enumerable for `HttpError`s
+    - deps: setprototypeof@1.0.3
   * deps: ms@2.0.0
 
 1.8.0 / 2016-11-21
