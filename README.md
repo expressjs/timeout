@@ -94,6 +94,23 @@ function haltOnTimedout (req, res, next) {
 app.listen(3000)
 ```
 
+Note : Using as top-level middleware does not override the timeout set 
+on the app(server). Nodejs http module's default timeout is 120 seconds.
+In case of a requirement to have a timeout of greater than 120 seconds,
+server.timeout should be set as below
+
+```javascript
+var app = express()
+
+//setting timeout of 300 seconds
+var server_timeout = 300000
+
+app.use(timeout(server_timeout/1000+'s'))
+
+var server = app.listen(3000)
+server.timeout = server_timeout
+```javascript
+
 ### express 3.x
 
 ```javascript
