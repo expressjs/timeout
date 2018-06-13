@@ -44,17 +44,39 @@ function timeout (time, options) {
   var respond = opts.respond === undefined || opts.respond === true
 
   return function (req, res, next) {
-    var id = setTimeout(function () {
-      req.timedout = true
-      req.emit('timeout', delay)
-    }, delay)
+    var started = Date.now()
+    var id = createTimeout(req, delay)
 
     if (respond) {
-      req.on('timeout', onTimeout(delay, next))
+      req.on('timeout', function () {
+        next(createError(503, 'Response timeout', {
+          code: 'ETIMEDOUT',
+          timeout: delay
+        }))
+      })
     }
 
     req.clearTimeout = function () {
       clearTimeout(id)
+    }
+
+    req.setTimeout = function (newDelay) {
+      started = Date.now()
+      delay = newDelay
+      clearTimeout(id)
+      id = createTimeout(req, delay)
+    }
+
+    req.addTimeout = function (moreDelay) {
+      var actualDelay = req.timeoutLeft() + moreDelay
+      delay = delay + moreDelay
+      clearTimeout(id)
+      id = createTimeout(req, actualDelay)
+    }
+
+    req.timeoutLeft = function () {
+      var time = delay - (Date.now() - started)
+      return (time > 0 ? time : 0)
     }
 
     req.timedout = false
@@ -72,18 +94,15 @@ function timeout (time, options) {
 }
 
 /**
- * Create timeout listener function.
+ * Create timeout.
  *
+ * @param {stream} req
  * @param {number} delay
- * @param {function} cb
  * @private
  */
-
-function onTimeout (delay, cb) {
-  return function () {
-    cb(createError(503, 'Response timeout', {
-      code: 'ETIMEDOUT',
-      timeout: delay
-    }))
-  }
+function createTimeout (req, delay) {
+  return setTimeout(function () {
+    req.timedout = true
+    req.emit('timeout', delay)
+  }, delay)
 }
