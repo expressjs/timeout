@@ -61,6 +61,9 @@ function timeout (time, options) {
     }
 
     req.setTimeout = function (newDelay) {
+      newDelay = typeof newDelay === 'string'
+        ? ms(newDelay)
+        : Number(newDelay)
       started = Date.now()
       delay = newDelay
       clearTimeout(id)
@@ -68,6 +71,9 @@ function timeout (time, options) {
     }
 
     req.addTimeout = function (moreDelay) {
+      moreDelay = typeof moreDelay === 'string'
+        ? ms(moreDelay)
+        : Number(moreDelay)
       var actualDelay = req.timeoutLeft() + moreDelay
       delay = delay + moreDelay
       clearTimeout(id)
