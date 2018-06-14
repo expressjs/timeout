@@ -57,6 +57,7 @@ function timeout (time, options) {
     }
 
     req.clearTimeout = function () {
+      delay = 0
       clearTimeout(id)
     }
 

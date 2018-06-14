@@ -187,7 +187,11 @@ describe('timeout()', function () {
   describe('req.timeoutLeft()', function () {
     it('should get the correct timeout left', function (done) {
       var server = createServer(null,
-        function (req, res) { setTimeout(function () { assert.ok(req.timeoutLeft() > 0 && req.timeoutLeft() < 100) }, 50) },
+        function (req, res) {
+          setTimeout(function () {
+            assert.ok(req.timeoutLeft() > 0 && req.timeoutLeft() < 100)
+          }, 50)
+        },
         function (req, res) {
           assert.equal(req.timeoutLeft(), 0)
           res.end('Hello')
@@ -197,6 +201,21 @@ describe('timeout()', function () {
       request(server)
       .get('/')
       .expect(503, 'Response timeout after 100ms', function () {})
+    })
+    it('should return 0 after clearTimeout', function (done) {
+      var server = createServer(null,
+        function (req, res) {
+          assert.ok(req.timeoutLeft() > 0)
+          req.clearTimeout()
+          assert.equal(req.timeoutLeft(), 0)
+        },
+        function (req, res) {
+          res.end('Hello')
+        })
+
+      request(server)
+      .get('/')
+      .expect(200, 'Hello', done)
     })
   })
 
