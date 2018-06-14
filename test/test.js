@@ -182,6 +182,25 @@ describe('timeout()', function () {
       .get('/')
       .expect(503, 'Response timeout after 190ms', done)
     })
+    it('should reset timeLeft if cleared', function (done) {
+      var server = createServer(null,
+        function (req, res) {
+          req.clearTimeout()
+          setTimeout(function () {
+            assert.equal(req.timeoutLeft(), 0)
+            req.addTimeout(10)
+            assert.ok(req.timeoutLeft() > 0 && req.timeoutLeft() <= 10)
+          }, 50)
+        },
+        function (req, res) {
+          assert.ok(req.timedout)
+          res.end('Hello')
+        })
+
+      request(server)
+      .get('/')
+      .expect(503, 'Response timeout after 10ms', done)
+    })
   })
 
   describe('req.timeoutLeft()', function () {
