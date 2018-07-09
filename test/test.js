@@ -131,6 +131,18 @@ describe('timeout()', function () {
       .get('/')
       .expect(200, 'Hello', done)
     })
+    it('should reset the timeout with 5000 default', function (done) {
+      var server = createServer(null,
+        function (req, res) { req.resetTimeout() },
+        function (req, res) {
+          assert.ok(!req.timedout)
+          res.end('Hello')
+        })
+
+      request(server)
+      .get('/')
+      .expect(200, 'Hello', done)
+    })
     it('should still timeout after the new timeout', function (done) {
       var server = createServer(null,
         function (req, res) { setTimeout(function () { req.resetTimeout(120) }, 50) },
@@ -161,6 +173,18 @@ describe('timeout()', function () {
     it('should reset the timeout with a string', function (done) {
       var server = createServer(null,
         function (req, res) { req.addTimeout('1s') },
+        function (req, res) {
+          assert.ok(!req.timedout)
+          res.end('Hello')
+        })
+
+      request(server)
+      .get('/')
+      .expect(200, 'Hello', done)
+    })
+    it('should reset the timeout with 5000 default', function (done) {
+      var server = createServer(null,
+        function (req, res) { req.addTimeout() },
         function (req, res) {
           assert.ok(!req.timedout)
           res.end('Hello')
