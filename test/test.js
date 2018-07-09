@@ -106,10 +106,10 @@ describe('timeout()', function () {
     })
   })
 
-  describe('req.setTimeout()', function () {
+  describe('req.resetTimeout()', function () {
     it('should reset the timeout', function (done) {
       var server = createServer(null,
-        function (req, res) { req.setTimeout(1000) },
+        function (req, res) { req.resetTimeout(1000) },
         function (req, res) {
           assert.ok(!req.timedout)
           res.end('Hello')
@@ -121,7 +121,7 @@ describe('timeout()', function () {
     })
     it('should reset the timeout with a string', function (done) {
       var server = createServer(null,
-        function (req, res) { req.setTimeout('1s') },
+        function (req, res) { req.resetTimeout('1s') },
         function (req, res) {
           assert.ok(!req.timedout)
           res.end('Hello')
@@ -133,7 +133,7 @@ describe('timeout()', function () {
     })
     it('should still timeout after the new timeout', function (done) {
       var server = createServer(null,
-        function (req, res) { setTimeout(function () { req.setTimeout(120) }, 50) },
+        function (req, res) { setTimeout(function () { req.resetTimeout(120) }, 50) },
         function (req, res) {
           assert.ok(req.timedout)
           res.end('Hello')
@@ -187,9 +187,9 @@ describe('timeout()', function () {
         function (req, res) {
           req.clearTimeout()
           setTimeout(function () {
-            assert.equal(req.timeoutLeft(), 0)
+            assert.equal(req.getTimeout(), 0)
             req.addTimeout(10)
-            assert.ok(req.timeoutLeft() > 0 && req.timeoutLeft() <= 10)
+            assert.ok(req.getTimeout() > 0 && req.getTimeout() <= 10)
           }, 50)
         },
         function (req, res) {
@@ -203,16 +203,16 @@ describe('timeout()', function () {
     })
   })
 
-  describe('req.timeoutLeft()', function () {
+  describe('req.getTimeout()', function () {
     it('should get the correct timeout left', function (done) {
       var server = createServer(null,
         function (req, res) {
           setTimeout(function () {
-            assert.ok(req.timeoutLeft() > 0 && req.timeoutLeft() < 100)
+            assert.ok(req.getTimeout() > 0 && req.getTimeout() < 100)
           }, 50)
         },
         function (req, res) {
-          assert.equal(req.timeoutLeft(), 0)
+          assert.equal(req.getTimeout(), 0)
           res.end('Hello')
           done()
         })
@@ -224,9 +224,9 @@ describe('timeout()', function () {
     it('should return 0 after clearTimeout', function (done) {
       var server = createServer(null,
         function (req, res) {
-          assert.ok(req.timeoutLeft() > 0)
+          assert.ok(req.getTimeout() > 0)
           req.clearTimeout()
-          assert.equal(req.timeoutLeft(), 0)
+          assert.equal(req.getTimeout(), 0)
         },
         function (req, res) {
           res.end('Hello')
