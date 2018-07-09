@@ -56,6 +56,18 @@ the response behavior. This error has a `.timeout` property as well as
 Clears the timeout on the request. The timeout is completely removed and
 will not fire for this request in the future.
 
+### req.resetTimeout(time)
+
+Resets the timeout on the request. The timeout is reset to the `time` given.
+
+### req.addTimeout(time)
+
+Adds to the timeout on the request. The timeout is increased by the `time` given.
+
+### req.getTimeout()
+
+Get the current timeout remaining (in milliseconds).
+
 ### req.timedout
 
 `true` if timeout fired; `false` otherwise.
