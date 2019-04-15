@@ -1,5 +1,5 @@
 {
-  "name": "connect-timeout",
+  "name": "@uzitech/connect-timeout",
   "description": "Request timeout middleware for Connect/Express",
   "version": "1.9.0",
   "contributors": [
@@ -7,7 +7,7 @@
     "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)"
   ],
   "license": "MIT",
-  "repository": "expressjs/timeout",
+  "repository": "uzitech/timeout",
   "dependencies": {
     "http-errors": "~1.6.1",
     "ms": "2.0.0",
