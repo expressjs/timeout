@@ -9,22 +9,22 @@ describe('timeout()', function () {
     this.timeout(10000)
     var server = createServer()
     request(server)
-    .get('/')
-    .expect(503, done)
+      .get('/')
+      .expect(503, done)
   })
 
   it('should accept millisecond timeout', function (done) {
     var server = createServer(123)
     request(server)
-    .get('/')
-    .expect(503, /123ms/, done)
+      .get('/')
+      .expect(503, /123ms/, done)
   })
 
   it('should accept string timeout', function (done) {
     var server = createServer('45ms')
     request(server)
-    .get('/')
-    .expect(503, /45ms/, done)
+      .get('/')
+      .expect(503, /45ms/, done)
   })
 
   describe('when below the timeout', function () {
@@ -33,8 +33,8 @@ describe('timeout()', function () {
         res.end('Hello')
       })
       request(server)
-      .get('/')
-      .expect(200, 'Hello', done)
+        .get('/')
+        .expect(200, 'Hello', done)
     })
   })
 
@@ -47,8 +47,8 @@ describe('timeout()', function () {
         })
 
         request(server)
-        .get('/')
-        .expect(503, done)
+          .get('/')
+          .expect(503, done)
       })
 
       it('should pass the error to next()', function (done) {
@@ -58,8 +58,8 @@ describe('timeout()', function () {
         })
 
         request(server)
-        .get('/')
-        .expect(503, 'Response timeout after 100ms', done)
+          .get('/')
+          .expect(503, 'Response timeout after 100ms', done)
       })
     })
 
@@ -73,21 +73,21 @@ describe('timeout()', function () {
           })
 
         request(server)
-        .get('/')
-        .expect(200, 'Hello World', done)
+          .get('/')
+          .expect(200, 'Hello World', done)
       })
     })
   })
 
   describe('options', function () {
     it('can disable auto response', function (done) {
-      var server = createServer({respond: false}, null, function (req, res) {
+      var server = createServer({ respond: false }, null, function (req, res) {
         res.end('Timedout ' + req.timedout)
       })
 
       request(server)
-      .get('/')
-      .expect(200, 'Timedout true', done)
+        .get('/')
+        .expect(200, 'Timedout true', done)
     })
   })
 
@@ -101,8 +101,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(200, 'Hello', done)
+        .get('/')
+        .expect(200, 'Hello', done)
     })
   })
 
@@ -116,8 +116,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(200, 'Hello', done)
+        .get('/')
+        .expect(200, 'Hello', done)
     })
     it('should reset the timeout with a string', function (done) {
       var server = createServer(null,
@@ -128,8 +128,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(200, 'Hello', done)
+        .get('/')
+        .expect(200, 'Hello', done)
     })
     it('should reset the timeout with 5000 default', function (done) {
       var server = createServer(null,
@@ -140,8 +140,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(200, 'Hello', done)
+        .get('/')
+        .expect(200, 'Hello', done)
     })
     it('should still timeout after the new timeout', function (done) {
       var server = createServer(null,
@@ -152,8 +152,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, 'Response timeout after 120ms', done)
+        .get('/')
+        .expect(503, 'Response timeout after 120ms', done)
     })
   })
 
@@ -167,8 +167,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(200, 'Hello', done)
+        .get('/')
+        .expect(200, 'Hello', done)
     })
     it('should reset the timeout with a string', function (done) {
       var server = createServer(null,
@@ -179,8 +179,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(200, 'Hello', done)
+        .get('/')
+        .expect(200, 'Hello', done)
     })
     it('should reset the timeout with 5000 default', function (done) {
       var server = createServer(null,
@@ -191,8 +191,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(200, 'Hello', done)
+        .get('/')
+        .expect(200, 'Hello', done)
     })
     it('should still timeout after the new timeout', function (done) {
       var server = createServer(null,
@@ -203,15 +203,15 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, 'Response timeout after 190ms', done)
+        .get('/')
+        .expect(503, 'Response timeout after 190ms', done)
     })
     it('should reset timeLeft if cleared', function (done) {
       var server = createServer(null,
         function (req, res) {
           req.clearTimeout()
           setTimeout(function () {
-            assert.equal(req.getTimeout(), 0)
+            assert.strict.equal(req.getTimeout(), 0)
             req.addTimeout(10)
             assert.ok(req.getTimeout() > 0 && req.getTimeout() <= 10)
           }, 50)
@@ -222,8 +222,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, 'Response timeout after 10ms', done)
+        .get('/')
+        .expect(503, 'Response timeout after 10ms', done)
     })
   })
 
@@ -236,29 +236,29 @@ describe('timeout()', function () {
           }, 50)
         },
         function (req, res) {
-          assert.equal(req.getTimeout(), 0)
+          assert.strict.equal(req.getTimeout(), 0)
           res.end('Hello')
           done()
         })
 
       request(server)
-      .get('/')
-      .expect(503, 'Response timeout after 100ms', function () {})
+        .get('/')
+        .expect(503, 'Response timeout after 100ms', function () {})
     })
     it('should return 0 after clearTimeout', function (done) {
       var server = createServer(null,
         function (req, res) {
           assert.ok(req.getTimeout() > 0)
           req.clearTimeout()
-          assert.equal(req.getTimeout(), 0)
+          assert.strict.equal(req.getTimeout(), 0)
         },
         function (req, res) {
           res.end('Hello')
         })
 
       request(server)
-      .get('/')
-      .expect(200, 'Hello', done)
+        .get('/')
+        .expect(200, 'Hello', done)
     })
   })
 
@@ -267,51 +267,51 @@ describe('timeout()', function () {
       var server = createServer(null,
         function (req, res) { req.destroy() },
         function (req, res) {
-          assert.equal(error.code, 'ECONNRESET')
+          assert.strict.equal(error.code, 'ECONNRESET')
           assert.ok(!req.timedout)
           done()
         })
       var error
 
       request(server)
-      .get('/')
-      .end(function (err) {
-        error = err
-      })
+        .get('/')
+        .end(function (err) {
+          error = err
+        })
     })
 
     it('res should clear timer', function (done) {
       var server = createServer(null,
         function (req, res) { res.destroy() },
         function (req, res) {
-          assert.equal(error.code, 'ECONNRESET')
+          assert.strict.equal(error.code, 'ECONNRESET')
           assert.ok(!req.timedout)
           done()
         })
       var error
 
       request(server)
-      .get('/')
-      .end(function (err) {
-        error = err
-      })
+        .get('/')
+        .end(function (err) {
+          error = err
+        })
     })
 
     it('socket should clear timer', function (done) {
       var server = createServer(null,
         function (req, res) { req.socket.destroy() },
         function (req, res) {
-          assert.equal(error.code, 'ECONNRESET')
+          assert.strict.equal(error.code, 'ECONNRESET')
           assert.ok(!req.timedout)
           done()
         })
       var error
 
       request(server)
-      .get('/')
-      .end(function (err) {
-        error = err
-      })
+        .get('/')
+        .end(function (err) {
+          error = err
+        })
     })
   })
 
