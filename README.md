@@ -70,7 +70,7 @@ Get the current timeout remaining (in milliseconds).
 
 ### req.timedout
 
-`true` if timeout fired; `false` otherwise.
+`true` if timeout fired; `false` otherwise. This will remain `true` if the timeout was changed after timeout was fired.
 
 ## Examples
 
