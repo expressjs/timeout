@@ -119,8 +119,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, /1000ms/, done)
+        .get('/')
+        .expect(503, /1000ms/, done)
     })
     it('should reset the timeout with a string', function (done) {
       var server = createServer(null,
@@ -134,8 +134,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, /1000ms/, done)
+        .get('/')
+        .expect(503, /1000ms/, done)
     })
     it('should reset the timeout with 5000 default', function (done) {
       this.timeout(10000)
@@ -150,8 +150,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, /5000ms/, done)
+        .get('/')
+        .expect(503, /5000ms/, done)
     })
     it('should still timeout after the new timeout', function (done) {
       var server = createServer(null,
@@ -162,8 +162,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, /120ms/, done)
+        .get('/')
+        .expect(503, /120ms/, done)
     })
   })
 
@@ -180,8 +180,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, /1100ms/, done)
+        .get('/')
+        .expect(503, /1100ms/, done)
     })
     it('should reset the timeout with a string', function (done) {
       var server = createServer(null,
@@ -195,8 +195,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, /1100ms/, done)
+        .get('/')
+        .expect(503, /1100ms/, done)
     })
     it('should reset the timeout with 5000 default', function (done) {
       this.timeout(10000)
@@ -211,8 +211,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, /5100ms/, done)
+        .get('/')
+        .expect(503, /5100ms/, done)
     })
     it('should still timeout after the new timeout', function (done) {
       var server = createServer(null,
@@ -223,8 +223,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, /190ms/, done)
+        .get('/')
+        .expect(503, /190ms/, done)
     })
     it('should reset timeLeft if cleared', function (done) {
       var server = createServer(null,
@@ -242,8 +242,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, /10ms/, done)
+        .get('/')
+        .expect(503, /10ms/, done)
     })
   })
 
@@ -262,8 +262,8 @@ describe('timeout()', function () {
         })
 
       request(server)
-      .get('/')
-      .expect(503, /100ms/, function () {})
+        .get('/')
+        .expect(503, /100ms/, function () {})
     })
     it('should return 0 after clearTimeout', function (done) {
       var server = createServer(null,
