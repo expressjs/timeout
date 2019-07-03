@@ -346,6 +346,7 @@ describe('timeout()', function () {
         function (req, res) {
           assert.ok(aborted)
           assert.ok(!req.timedout)
+          server.close()
           done()
         })
       var test = request(server).post('/')
