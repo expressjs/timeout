@@ -54,7 +54,7 @@ describe('timeout()', function () {
       it('should pass the error to next()', function (done) {
         var server = createServer(null, null, function (req, res) {
           assert.ok(req.timedout)
-          res.end('Hello')
+          // res.end('Hello')
         })
 
         request(server)
