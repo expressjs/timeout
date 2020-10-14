@@ -1,3 +1,17 @@
+1.9.2 / 2020-10-14
+==================
+
+  * Request methods only affect that requests timeout
+  * Update deps
+
+1.9.1 / 2019-07-03
+==================
+
+  * Add resetTimeout(time)
+  * Add addTimeout(time)
+  * Add getTimeout()
+  * Update deps
+
 1.9.0 / 2017-05-16
 ==================
 
