@@ -37,27 +37,28 @@ module.exports = timeout
 function timeout (time, options) {
   var opts = options || {}
 
-  var delay = typeof time === 'string'
+  var defaultDelay = typeof time === 'string'
     ? ms(time)
     : Number(time || 5000)
 
   var respond = opts.respond === undefined || opts.respond === true
 
   return function (req, res, next) {
+    var requestDelay = defaultDelay
     var started = Date.now()
-    var id = createTimeout(req, delay)
+    var id = createTimeout(req, requestDelay)
 
     if (respond) {
       req.on('timeout', function () {
         next(createError(503, 'Response timeout', {
           code: 'ETIMEDOUT',
-          timeout: delay
+          timeout: requestDelay
         }))
       })
     }
 
     req.clearTimeout = function () {
-      delay = 0
+      requestDelay = 0
       clearTimeout(id)
     }
 
@@ -66,9 +67,9 @@ function timeout (time, options) {
         ? ms(newDelay)
         : Number(newDelay || 5000)
       started = Date.now()
-      delay = newDelay
+      requestDelay = newDelay
       clearTimeout(id)
-      id = createTimeout(req, delay)
+      id = createTimeout(req, requestDelay)
     }
 
     req.addTimeout = function (moreDelay) {
@@ -77,16 +78,16 @@ function timeout (time, options) {
         : Number(moreDelay || 5000)
       var timeLeft = req.getTimeout()
       var actualDelay = timeLeft + moreDelay
-      delay = delay + moreDelay
+      requestDelay = requestDelay + moreDelay
       if (timeLeft === 0) {
-        started = Date.now() + actualDelay - delay
+        started = Date.now() + actualDelay - requestDelay
       }
       clearTimeout(id)
       id = createTimeout(req, actualDelay)
     }
 
     req.getTimeout = function () {
-      var time = delay - (Date.now() - started)
+      var time = requestDelay - (Date.now() - started)
       return (time > 0 ? time : 0)
     }
 
@@ -108,12 +109,12 @@ function timeout (time, options) {
  * Create timeout.
  *
  * @param {stream} req
- * @param {number} delay
+ * @param {number} requestDelay
  * @private
  */
-function createTimeout (req, delay) {
+function createTimeout (req, requestDelay) {
   return setTimeout(function () {
     req.timedout = true
-    req.emit('timeout', delay)
-  }, delay)
+    req.emit('timeout', requestDelay)
+  }, requestDelay)
 }
