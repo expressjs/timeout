@@ -11,7 +11,7 @@
   "dependencies": {
     "http-errors": "~1.6.1",
     "ms": "2.0.0",
-    "on-finished": "~2.3.0",
+    "on-finished": "~2.4.1",
     "on-headers": "~1.0.1"
   },
   "devDependencies": {
