@@ -3,6 +3,7 @@ var assert = require('assert')
 var http = require('http')
 var request = require('supertest')
 var timeout = require('..')
+var isFinished = require('on-finished').isFinished
 
 describe('timeout()', function () {
   it('should have a default timeout', function (done) {
@@ -43,7 +44,10 @@ describe('timeout()', function () {
       it('should respond with 503 Request timeout', function (done) {
         var server = createServer(null, null, function (req, res) {
           assert.ok(req.timedout)
-          res.end('Hello')
+          if (!isFinished(res)) {
+            // check response is writable for node 14
+            res.end('Hello')
+          }
         })
 
         request(server)
@@ -54,7 +58,10 @@ describe('timeout()', function () {
       it('should pass the error to next()', function (done) {
         var server = createServer(null, null, function (req, res) {
           assert.ok(req.timedout)
-          res.end('Hello')
+          if (!isFinished(res)) {
+            // check response is writable for node 14
+            res.end('Hello')
+          }
         })
 
         request(server)
@@ -170,7 +177,10 @@ describe('timeout()', function () {
         function (req, res) {
           assert.ok(aborted)
           assert.ok(!req.timedout)
-          done()
+
+          server.close(function () {
+            done()
+          })
         })
       var test = request(server).post('/')
       test.write('0')
