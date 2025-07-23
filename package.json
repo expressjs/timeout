@@ -8,6 +8,10 @@
   ],
   "license": "MIT",
   "repository": "expressjs/timeout",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/express"
+  },
   "dependencies": {
     "http-errors": "~1.6.1",
     "ms": "2.0.0",
