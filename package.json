@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "http-errors": "~1.6.1",
-    "ms": "2.0.0",
+    "ms-tiny": "^1.1.0",
     "on-finished": "~2.3.0",
     "on-headers": "~1.1.0"
   },

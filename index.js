@@ -13,7 +13,7 @@
  */
 
 var createError = require('http-errors')
-var ms = require('ms')
+var ms = require('ms-tiny')
 var onFinished = require('on-finished')
 var onHeaders = require('on-headers')
 
