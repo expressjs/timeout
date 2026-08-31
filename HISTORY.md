@@ -1,3 +1,9 @@
+unreleased
+==========
+
+  * Fix: a numeric timeout of `0` was treated as the 5000ms default
+    because `time || 5000` is falsy for zero
+
 1.9.1 / 2025-07-17
 ==========
 

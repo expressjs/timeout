@@ -21,6 +21,13 @@ describe('timeout()', function () {
     .expect(503, /123ms/, done)
   })
 
+  it('should accept a zero millisecond timeout', function (done) {
+    var server = createServer(0)
+    request(server)
+    .get('/')
+    .expect(503, /after 0ms/, done)
+  })
+
   it('should accept string timeout', function (done) {
     var server = createServer('45ms')
     request(server)
