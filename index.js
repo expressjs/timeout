@@ -39,7 +39,7 @@ function timeout (time, options) {
 
   var delay = typeof time === 'string'
     ? ms(time)
-    : Number(time || 5000)
+    : Number(time == null ? 5000 : time)
 
   var respond = opts.respond === undefined || opts.respond === true
 
